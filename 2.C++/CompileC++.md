@@ -3,7 +3,7 @@
 >编译 C++ 语言相关的后缀
 
 <div align=center>
-<image src='imgs/fundamentalcpp.png' width=600>
+<image src='imgs/fundamentalcpp.png' width=900>
 </div>
 
 &emsp;

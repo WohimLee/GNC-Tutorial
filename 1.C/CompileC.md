@@ -2,7 +2,7 @@
 # 1 Fundamental Compiling
 >编译 C 语言相关的后缀
 <div align=center>
-<image src='imgs/filenamesuffixes1.png' width=600>
+<image src='imgs/filenamesuffixes1.png' width=900>
 </div>
 &emsp;
 
@@ -13,19 +13,19 @@
 ## 2.1 Preprocessing
 
 ```shell
-gcc -E helloworld.c
-gcc -E helloworld.c -o helloworld.i
+# 不会生成 .i 文件
+gcc -E main.c
+gcc -E main.c -o helloworld.i
 ```
 - -E 选项告诉编译器只进行预处理操作
 - -o 选项把预处理的结果输出到指定文件      
 
 
-
 &emsp;
 ## 2.2 Generating Assembly Language
 ```shell
-gcc -S helloworld.c
-gcc -S helloworld.c -o helloworld.s
+gcc -S main.c
+gcc -S main.c -o xxx.s
 ```
 - -S 选项告诉编译器，进行预处理和编译成汇编语言操作
 
@@ -35,21 +35,19 @@ gcc -S helloworld.c -o helloworld.s
 &emsp;
 ## 2.3 Source File to Object File
 ```shell
-gcc -c helloworld.c
-gcc -c helloworld.c -o harumph.o
+gcc -c main.c
+gcc -c main.c -o xxx.o
 # 编译多个 .c 文件
-gcc -c helloworld.c helloworld1.c helloworld2.c
+gcc -c main.c add.c minus.c
 ```
-
 
 &emsp;
 ## 2.4 Single Source to Executable
 - 注意：后面三个命令执行后并没有按编译过程出现 .i .s 或 .o 文件，并不意味着没有经历这些过程
 
-
 ```shell
-gcc helloworld.c
-gcc helloworld.c -o howdy
+gcc main.c
+gcc main.c -o xxx
 ```
 
 执行程序
@@ -57,11 +55,10 @@ gcc helloworld.c -o howdy
 ./可执行文件
 ```
 
-&emsp;
-## 2.5 Multiple Source to Executable
-
+## 2.5 Multiple Sources to Executable
 ```
-$ gcc hellomain.c sayhello.c -o hello
+gcc main.c add.c minus.c -o exec
+./exec
 ```
 
 
@@ -87,18 +84,18 @@ $ gcc hellomain.c sayhello.c -o hello
 &emsp;
 # 4 Creating a Shared Library
 
-- 编译二进制.o文件
-    ```shell
-    gcc -c -fpic [.c/.cpp][.c/.cpp]... 
-    ```
-- 编库
-    ```shell
-    gcc -shared [.o][.o]... -o [lib自定义库名.so]
-    ```
-- 连接动态库到可执行文件
-    ```shell
-    gcc [.c/.cpp] -o [自定义可执行文件名]  -l[库名] -L[库路径] -Wl,-rpath=[库路径]
-    ```
+>编译二进制.o文件
+```shell
+gcc -c -fpic [.c/.cpp][.c/.cpp]... 
+```
+>编库
+```shell
+gcc -shared [.o][.o]... -o [lib自定义库名.so]
+```
+- 链接库到可执行文件
+```shell
+gcc [.c/.cpp] -o [自定义可执行文件名]  -l[库名] -L[库路径] -Wl,-rpath=[库路径]
+```
 
 &emsp;
 # 总结
