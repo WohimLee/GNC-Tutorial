@@ -3,5 +3,4 @@
 
 int minus(int a, int b);
 
-
 #endif // MINUS_HPP

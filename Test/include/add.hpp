@@ -3,5 +3,4 @@
 
 int add(int a, int b);
 
-
-#endif //
+#endif // ADD_HPP
