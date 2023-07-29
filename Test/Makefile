@@ -1,46 +1,57 @@
 
 
-cpp_srcs := $(shell find src -name *.cpp)
+MAIN := src/main.cpp
+cpp_srcs := $(shell find src -name "*.cpp")
 cpp_objs := $(patsubst src/%.cpp,objs/%.o,$(cpp_srcs))
-lib_srcs := $(filter-out src/main.cpp,$(cpp_srcs))
-lib_objs := $(filter-out objs/main.o,$(cpp_objs))
+
+so_objs := $(filter-out objs/main.o,$(cpp_objs))
+
+include_dir := /Users/azen/Desktop/myAir/Work/Workspace/Tutorials/2.C++/GNC-Tutorial/Test/include
 
 
-include_paths := /Users/azen/Desktop/myAir/Work/Workspace/Education/2.C++/GNC-Tutorial/Test/include
-library_paths := /Users/azen/Desktop/myAir/Work/Workspace/Education/2.C++/GNC-Tutorial/Test/lib
-linking_libs  := xxx
+so_libs := ddd
+so_dirs := /Users/azen/Desktop/myAir/Work/Workspace/Tutorials/2.C++/GNC-Tutorial/Test/lib
 
-I_options := $(include_paths:%=-I%)
-L_options := $(library_paths:%=-L%)
-l_options := $(linking_libs:%=-l%)
+I_options := $(include_dir:%=-I%)
+l_options := $(so_libs:%=-l%)
+L_options := $(so_dirs:%=-L%)
+r_options := $(so_dirs:%=-Wl,-rpath=%)
 
-compile_flags := -g -O3 -std=c++11 $(I_options)
+compile_options := -O3 -w -g $(I_options)
+linking_options := $(l_options) $(L_options) $(r_options)
 
 objs/%.o : src/%.cpp
 	@mkdir -p $(dir $@)
-	@g++ -c $^ -o $@ $(compile_flags)
+	@g++ -c $^ -o $@ $(compile_options)
 
-lib/libxxx.a : $(lib_objs)
+compile : $(cpp_objs)
+
+
+
+lib/libddd.so : $(so_objs)
 	@mkdir -p $(dir $@)
-	@ar -r $@ $^
+	@g++ -shared $^ -o $@
 
-static_lib : lib/libxxx.a
+dynamic : lib/libddd.so
 
 
-objs/main.o : 
 
-workspace/exec : objs/main.cpp
+workspace/exec : objs/main.o compile dynamic
 	@mkdir -p $(dir $@)
-	@g++ $< -o $@ 
+	@g++ $< -o $@ $(linking_options)
+
+
 
 run : workspace/exec
 	@./$<
 
+
 debug :
-	@echo $(cpp_srcs)
-	@echo $(lib_objs)
+	@echo $(cpp_objs)
+
+
 
 clean :
-	@rm -rf lib objs workspace/exec
+	@rm -rf workspace/exec objs lib
 
-.PHONY : debug static_lib clean
+.PHONY : debug dynamic clean compile

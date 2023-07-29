@@ -1,0 +1,11 @@
+# files
+*.o
+*.a
+*.so
+exec
+.DS_Store
+
+# folders
+/objs
+/workspace
+/lib
