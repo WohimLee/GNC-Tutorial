@@ -6,6 +6,6 @@ exec
 .DS_Store
 
 # folders
-/objs
-/workspace
-/lib
+objs
+workspace
+lib
